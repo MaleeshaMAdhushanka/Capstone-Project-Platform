@@ -8,6 +8,7 @@ jobs:
     env:
       VM_NAME: vm-platform-seed
       ZONE: asia-southeast1-c
+      USER_NAME: zeejmaleeshamadushanka
 
     permissions:
         contents: 'read'
@@ -27,10 +28,15 @@ jobs:
        - name: Start the vm-platform-seed
          run: gcloud compute instances start ${{ env.VM_NAME }} --zone=${{ env.ZONE }}
 
-       - name: Connect with the vm-platform-seed through SSH
+       - name: Connect with the vm-platform-seed through SSH, pull the latest code and build the project
          run: > 
-           gcloud compute ssh ${{env.VM_NAME }} --zone=${{ env.ZONE }}
-           --command "echo 'Connected to vm-platform-seed successfully!'"
+           gcloud compute ssh ${{ env.USER_NAME }}@${{env.VM_NAME }} --zone=${{ env.ZONE }}
+           --command "echo 'Connected to vm-platform-seed successfully!' &&
+           Capstone-Project-Platform/ &&
+           git pull --recurse-submodules &&
+           source ~/.bashrc &&
+           mvn clean package
+           "
 
 
 
