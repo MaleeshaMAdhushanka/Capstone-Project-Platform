@@ -39,7 +39,9 @@ jobs:
            cd Capstone-Project-Platform/ &&
            git pull --recurse-submodules &&
            source ~/.bashrc &&
-           mvn clean package
+           mvn clean package &&
+           pm2 start ecosystem.config.js &&
+           pm2 save
            "
 
        - name: Stop the vm-platform-seed  instance
